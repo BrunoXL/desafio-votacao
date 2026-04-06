@@ -24,3 +24,10 @@ logs:
 
 logs-db:
 	docker compose logs -f db
+
+# ── Testes ───────────────────────────────────────────────────
+test:
+	mvn test
+
+test-coverage:
+	mvn clean verify
