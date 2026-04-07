@@ -26,6 +26,9 @@ public class Pauta {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Version
+    private Integer version;
+
     @Column(nullable = false, length = 255)
     private String titulo;
 
