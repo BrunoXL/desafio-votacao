@@ -1,4 +1,4 @@
-package com.desafio.votacao.controller;
+package com.desafio.votacao.controller.v1;
 
 import com.desafio.votacao.dto.AssociadoRequest;
 import com.desafio.votacao.dto.AssociadoResponse;
@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "Associado", description = "Gerenciamento de associados")
 @RestController
 @RequestMapping("/api/v1/associados")
 @Slf4j
 public class AssociadoController {
+@RequiredArgsConstructor
+@Tag(name = "Associados (Legacy V1)", description = "Gerenciamento de associados (Versão Depreciada)")
+public class AssociadoControllerV1 {
 
     private final AssociadoService associadoService;
 
@@ -36,12 +38,12 @@ public class AssociadoController {
 
     @Operation(summary = "Listar todos os associados")
     @GetMapping
+    @Operation(summary = "Lista todos os associados")
     public ResponseEntity<List<AssociadoResponse>> listarTodos() {
         log.info("Listando todos os associados");
         return ResponseEntity.ok(associadoService.listarTodos());
     }
 
-    @Operation(summary = "Buscar associado por ID")
     @GetMapping("/{id}")
     public ResponseEntity<AssociadoResponse> buscarPorId(@PathVariable UUID id) {
         log.info("Buscando associado por ID: {}", id);

@@ -1,8 +1,9 @@
-package com.desafio.votacao.controller;
+package com.desafio.votacao.controller.V1;
 
 import com.desafio.votacao.dto.AssociadoRequest;
 import com.desafio.votacao.dto.AssociadoResponse;
 import com.desafio.votacao.service.AssociadoService;
+import com.desafio.votacao.controller.v1.AssociadoControllerV1;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AssociadoController.class)
-class AssociadoControllerTest {
+@WebMvcTest(AssociadoControllerV1.class)
+class AssociadoControllerV1Test {
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,8 +57,7 @@ class AssociadoControllerTest {
         UUID id2 = UUID.randomUUID();
         List<AssociadoResponse> associados = List.of(
                 new AssociadoResponse(id1, "Associado 1", "11111111111"),
-                new AssociadoResponse(id2, "Associado 2", "22222222222")
-        );
+                new AssociadoResponse(id2, "Associado 2", "22222222222"));
 
         when(associadoService.listarTodos()).thenReturn(associados);
 
