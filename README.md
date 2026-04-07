@@ -104,6 +104,7 @@ classDiagram
 Para rodar os testes:
 ```bash
 make test
+```
 
 Para rodar os testes e gerar o relatório de cobertura JaCoCo:
 ```bash
