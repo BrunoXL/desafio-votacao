@@ -41,6 +41,11 @@ make db
 mvn spring-boot:run
 ```
 
+
+> [!IMPORTANT]
+> **Atenção à Conexão**: A execução via **Docker** utiliza o host `db`, enquanto a execução **Local (Maven)** utiliza `localhost`. Fique atento também as portas. Na execução local a porta é 5433 e na execução via Docker é 5432.
+> Certifique-se de ajustar a `DB_URL` no seu arquivo `.env` para cada cenário.
+
 ---
 
 ## 📖 Documentação da API (Swagger)
