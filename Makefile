@@ -31,3 +31,10 @@ test:
 
 test-coverage:
 	mvn clean verify
+
+# ── Backup do Banco ──────────────────────────────────────────
+dump:
+	docker exec -t votacao-db pg_dump -U postgres votacao > backup_votacao.sql
+
+restore:
+	docker exec -i votacao-db psql -U postgres votacao < backup_votacao.sql
