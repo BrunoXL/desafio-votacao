@@ -56,7 +56,7 @@ class PautaControllerV2Test {
     @Test
     void abrirSessao_ComConcorrencia_DeveRetornar409() throws Exception {
         UUID id = UUID.randomUUID();
-        SessaoRequestV2 request = new SessaoRequestV2(1, 0); // Espera versão 0
+        SessaoRequest request = new SessaoRequest(1); // Espera versão 0
 
         Pauta entity = new Pauta();
         entity.setId(id);

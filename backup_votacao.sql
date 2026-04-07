@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict thlOU6Y98KTfv99zOSXgPFthLePMhWs7nU3RZaC4KACHShCUhd39RQ2u0npjxp0
+\restrict e0dtCsC6NZJNo1RRLqpSgweMX7HkblAtmrAE3ZxktmeGtiyjG29BoxJr0Rq6azE
 
 -- Dumped from database version 16.13
 -- Dumped by pg_dump version 16.13
@@ -67,6 +67,7 @@ CREATE TABLE public.pauta (
     data_abertura timestamp with time zone,
     data_fechamento timestamp with time zone,
     criada_em timestamp with time zone DEFAULT now() NOT NULL,
+    version integer DEFAULT 0 NOT NULL,
     CONSTRAINT pauta_status_check CHECK (((status)::text = ANY ((ARRAY['CRIADA'::character varying, 'EM_VOTACAO'::character varying, 'ENCERRADA'::character varying])::text[])))
 );
 
@@ -110,6 +111,7 @@ COPY public.flyway_schema_history (installed_rank, version, description, type, s
 1	1	create pauta	SQL	V1__create_pauta.sql	-297952900	postgres	2026-04-07 12:05:40.593955	12	t
 2	2	create associado	SQL	V2__create_associado.sql	-1191074287	postgres	2026-04-07 12:05:40.619783	7	t
 3	3	create voto	SQL	V3__create_voto.sql	1839927055	postgres	2026-04-07 12:05:40.635108	9	t
+4	4	add pauta version	SQL	V4__add_pauta_version.sql	-2032368815	postgres	2026-04-07 14:26:44.355109	3	t
 \.
 
 
@@ -117,8 +119,13 @@ COPY public.flyway_schema_history (installed_rank, version, description, type, s
 -- Data for Name: pauta; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.pauta (id, titulo, descricao, status, data_abertura, data_fechamento, criada_em) FROM stdin;
-770b3c8f-e017-4fc3-91fe-87fc8ac3d412	Aprovação de orçamento	Votação para decidir o orçamento anual	ENCERRADA	2026-04-07 15:36:00.612+00	2026-04-07 15:53:41.461305+00	2026-04-07 15:24:59.594235+00
+COPY public.pauta (id, titulo, descricao, status, data_abertura, data_fechamento, criada_em, version) FROM stdin;
+770b3c8f-e017-4fc3-91fe-87fc8ac3d412	Aprovação de orçamento	Votação para decidir o orçamento anual	ENCERRADA	2026-04-07 15:36:00.612+00	2026-04-07 15:53:41.461305+00	2026-04-07 15:24:59.594235+00	0
+420cfe32-88f4-4a82-9394-9d789f486ff8	Aprovação de orçamento	Votação para decidir o orçamento anual	ENCERRADA	2026-04-07 17:52:47.925887+00	2026-04-07 17:53:47.925887+00	2026-04-07 17:46:31.556489+00	2
+c8237fe6-108f-4f98-8ce9-bd86bf73cacd	Aprovação de orçamento	Votação para decidir o orçamento anual	ENCERRADA	2026-04-07 18:44:11.138647+00	2026-04-07 18:47:14.100435+00	2026-04-07 18:40:58.366492+00	2
+79514dc6-ed54-4ff8-85fe-141b9707f8dc	Aprovação de orçamento	Votação para decidir o orçamento anual	ENCERRADA	2026-04-07 18:54:19.845813+00	2026-04-07 18:57:25.357797+00	2026-04-07 18:39:57.698425+00	2
+7d172bed-d531-4de4-818f-5f34317c548a	Aprovação de orçamento	Votação para decidir o orçamento anual	ENCERRADA	2026-04-07 19:00:22.537451+00	2026-04-07 19:02:23.946141+00	2026-04-07 18:57:47.21677+00	2
+52cfc7b9-c250-4ce2-89fc-6905fcc377f3	Aprovação de orçamento	Votação para decidir o orçamento anual	EM_VOTACAO	2026-04-07 19:14:34.537614+00	2026-04-07 19:24:34.537614+00	2026-04-07 19:14:17.161661+00	1
 \.
 
 
@@ -132,6 +139,8 @@ COPY public.voto (id, pauta_id, associado_id, voto, data_voto) FROM stdin;
 b01b2487-8c71-4a5e-8e3c-91078309130b	770b3c8f-e017-4fc3-91fe-87fc8ac3d412	92993aea-2e6b-468d-832b-c8c16862f76c	SIM	2026-04-07 12:41:59.974156
 e6e92f1f-6c25-4483-8837-1b47620e1453	770b3c8f-e017-4fc3-91fe-87fc8ac3d412	a850eb56-b59a-420b-a76d-8aac5e549d69	NAO	2026-04-07 12:45:28.396422
 fa8d0108-47dc-417a-ac7b-d3ea8a88502a	770b3c8f-e017-4fc3-91fe-87fc8ac3d412	dc069b9f-5fbc-4ef1-82a9-26eb1a726d5c	NAO	2026-04-07 12:45:44.332961
+c8165029-6a21-49f2-bd2a-3c8623868f0b	c8237fe6-108f-4f98-8ce9-bd86bf73cacd	dc069b9f-5fbc-4ef1-82a9-26eb1a726d5c	NAO	2026-04-07 15:44:51.887929
+d81f2586-c8b2-448c-955f-ddf07fd4cfad	79514dc6-ed54-4ff8-85fe-141b9707f8dc	dc069b9f-5fbc-4ef1-82a9-26eb1a726d5c	NAO	2026-04-07 15:57:10.485132
 \.
 
 
@@ -231,5 +240,5 @@ ALTER TABLE ONLY public.voto
 -- PostgreSQL database dump complete
 --
 
-\unrestrict thlOU6Y98KTfv99zOSXgPFthLePMhWs7nU3RZaC4KACHShCUhd39RQ2u0npjxp0
+\unrestrict e0dtCsC6NZJNo1RRLqpSgweMX7HkblAtmrAE3ZxktmeGtiyjG29BoxJr0Rq6azE
 

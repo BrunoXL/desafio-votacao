@@ -49,15 +49,9 @@ public class PautaControllerV2 {
     @PostMapping("/{id}/sessao")
     @Operation(summary = "Abre uma sessão de votação em uma pauta (Requer Versão)")
     public ResponseEntity<PautaResponseV2> abrirSessao(@PathVariable UUID id,
-            @RequestBody(required = false) SessaoRequestV2 request) {
-        var pauta = pautaService.findPautaOrThrow(id);
-        if (request != null && request.version() != null) {
-            pauta.setVersion(request.version());
-        }
+            @RequestBody(required = false) SessaoRequest request) {
 
-        SessaoRequest legacyRequest = (request != null) ? new SessaoRequest(request.duracaoMinutos()) : null;
-        pautaService.abrirSessao(id, legacyRequest);
-
+        pautaService.abrirSessao(id, request);
         return ResponseEntity.ok(PautaResponseV2.fromEntity(pautaService.findPautaOrThrow(id)));
     }
 
