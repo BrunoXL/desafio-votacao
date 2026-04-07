@@ -6,18 +6,16 @@ import com.desafio.votacao.entity.Associado;
 import com.desafio.votacao.exception.BusinessException;
 import com.desafio.votacao.exception.NotFoundException;
 import com.desafio.votacao.repository.AssociadoRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class AssociadoService {
-
-    private static final Logger log = LoggerFactory.getLogger(AssociadoService.class);
 
     private final AssociadoRepository associadoRepository;
 
@@ -28,6 +26,7 @@ public class AssociadoService {
     @Transactional
     public AssociadoResponse criar(AssociadoRequest request) {
         if (associadoRepository.existsByCpf(request.cpf())) {
+            log.warn("Falha ao criar associado: CPF {} já está cadastrado", request.cpf());
             throw new BusinessException("CPF já cadastrado: " + request.cpf());
         }
 

@@ -8,18 +8,16 @@ import com.desafio.votacao.entity.Pauta;
 import com.desafio.votacao.entity.Voto;
 import com.desafio.votacao.exception.BusinessException;
 import com.desafio.votacao.repository.VotoRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class VotoService {
-
-    private static final Logger log = LoggerFactory.getLogger(VotoService.class);
 
     private final VotoRepository votoRepository;
     private final PautaService pautaService;
@@ -41,6 +39,7 @@ public class VotoService {
         Pauta pauta = pautaService.findPautaOrThrow(pautaId);
 
         if (!pautaService.isSessaoAberta(pauta)) {
+            log.warn("Tentativa de voto em pauta com sessão fechada: {}", pautaId);
             throw new BusinessException("A sessão de votação não está aberta para esta pauta");
         }
 
@@ -48,10 +47,12 @@ public class VotoService {
 
         CpfValidationClient.CpfStatus cpfStatus = cpfValidationClient.validarCpf(associado.getCpf());
         if (cpfStatus == CpfValidationClient.CpfStatus.UNABLE_TO_VOTE) {
+            log.warn("Associado {} (CPF: {}) não habilitado para votar: UNABLE_TO_VOTE", associado.getId(), associado.getCpf());
             throw new BusinessException("O associado não está habilitado para votar (UNABLE_TO_VOTE)");
         }
 
         if (votoRepository.existsByPautaIdAndAssociadoId(pautaId, request.associadoId())) {
+            log.warn("Voto duplicado: associado {} já votou na pauta {}", request.associadoId(), pautaId);
             throw new BusinessException("O associado já votou nesta pauta");
         }
 

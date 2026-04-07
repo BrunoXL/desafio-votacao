@@ -91,14 +91,14 @@ class PautaIntegrationTest {
                                 .andExpect(jsonPath("$.status").value("EM_VOTACAO"));
 
                 // 7. Voto do Associado 1 -> SIM
-                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votos")
+                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votar")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper
                                                 .writeValueAsString(new VotoRequest(associado1Id, VotoEscolha.SIM))))
                                 .andExpect(status().isCreated());
 
                 // 8. Voto do Associado 2 -> NAO
-                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votos")
+                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votar")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper
                                                 .writeValueAsString(new VotoRequest(associado2Id, VotoEscolha.NAO))))
@@ -106,7 +106,7 @@ class PautaIntegrationTest {
 
                 // 9. Tentar votar de novo com Associado 1 (Deve rejeitar com 422 - Voto
                 // Duplicado)
-                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votos")
+                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votar")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper
                                                 .writeValueAsString(new VotoRequest(associado1Id, VotoEscolha.SIM))))

@@ -7,8 +7,7 @@ import com.desafio.votacao.exception.BusinessException;
 import com.desafio.votacao.exception.NotFoundException;
 import com.desafio.votacao.repository.PautaRepository;
 import com.desafio.votacao.repository.VotoRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +15,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class PautaService {
-
-    private static final Logger log = LoggerFactory.getLogger(PautaService.class);
 
     private final PautaRepository pautaRepository;
     private final VotoRepository votoRepository;
@@ -58,6 +56,7 @@ public class PautaService {
         Pauta pauta = findPautaOrThrow(pautaId);
 
         if (pauta.getStatus() != StatusPauta.CRIADA) {
+            log.warn("Falha ao abrir sessão: Pauta {} já está no status {}", pautaId, pauta.getStatus());
             throw new BusinessException("A pauta não está no status CRIADA. Status atual: " + pauta.getStatus());
         }
 
@@ -78,6 +77,7 @@ public class PautaService {
         Pauta pauta = findPautaOrThrow(pautaId);
 
         if (pauta.getStatus() != StatusPauta.EM_VOTACAO) {
+            log.warn("Falha ao fechar sessão: Pauta {} não está EM_VOTACAO. Status: {}", pautaId, pauta.getStatus());
             throw new BusinessException("A pauta não está em votação. Status atual: " + pauta.getStatus());
         }
 
