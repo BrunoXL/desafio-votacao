@@ -20,11 +20,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: votacao-app
-    environment:
-      DB_URL: ${DB_URL}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      SERVER_PORT: 8080
     depends_on:
       db:
         condition: service_healthy

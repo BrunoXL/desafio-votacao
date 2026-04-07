@@ -10,6 +10,9 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: dev
       JAVA_OPTS: "-Xms256m -Xmx512m"
+      DB_URL: ${DB_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./target:/app/target
     restart: "no"
