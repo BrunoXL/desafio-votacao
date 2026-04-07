@@ -95,22 +95,6 @@ classDiagram
 
     Pauta "1" *-- "many" Voto : possui
     Associado "1" *-- "many" Voto : realiza
-    
-    class PautaController {
-        +criar(PautaRequest)
-        +abrirSessao(id, SessaoRequest)
-        +votar(id, VotoRequest)
-        +obterResultado(id)
-    }
-    
-    class PautaService {
-        +abrirSessao()
-        +obterResultado()
-    }
-    
-    PautaController --> PautaService
-    PautaService --> PautaRepository
-    PautaRepository --> Pauta : gerencia
 ```
 
 ---
