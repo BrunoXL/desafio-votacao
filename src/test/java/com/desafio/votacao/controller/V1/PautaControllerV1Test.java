@@ -99,7 +99,7 @@ class PautaControllerTest {
 
                 when(votoService.votar(eq(pautaId), any(VotoRequest.class))).thenReturn(response);
 
-                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votos")
+                mockMvc.perform(post("/api/v1/pautas/" + pautaId + "/votar")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(request)))
                                 .andExpect(status().isCreated())

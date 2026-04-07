@@ -17,14 +17,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/associados")
 @Slf4j
-public class AssociadoController {
-@RequiredArgsConstructor
 @Tag(name = "Associados (Legacy V1)", description = "Gerenciamento de associados (Versão Depreciada)")
 public class AssociadoControllerV1 {
 
     private final AssociadoService associadoService;
 
-    public AssociadoController(AssociadoService associadoService) {
+    public AssociadoControllerV1(AssociadoService associadoService) {
         this.associadoService = associadoService;
     }
 
@@ -38,7 +36,6 @@ public class AssociadoControllerV1 {
 
     @Operation(summary = "Listar todos os associados")
     @GetMapping
-    @Operation(summary = "Lista todos os associados")
     public ResponseEntity<List<AssociadoResponse>> listarTodos() {
         log.info("Listando todos os associados");
         return ResponseEntity.ok(associadoService.listarTodos());

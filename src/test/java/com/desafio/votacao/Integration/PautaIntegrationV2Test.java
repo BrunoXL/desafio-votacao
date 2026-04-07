@@ -65,7 +65,7 @@ class PautaIntegrationV2Test {
     }
 
     @Test
-    void scheduler_DeveFecharPautaExpiradaAutomaticamente() throws Exception {
+    void scheduler_DeveFecharPautaExpiradaAutomaticamente(){
         // 1. Criar uma pauta ja aberta mas com data de fechamento no PASSADO
         Pauta pauta = new Pauta();
         pauta.setTitulo("Pauta Expirada");
@@ -88,9 +88,9 @@ class PautaIntegrationV2Test {
                 .thenReturn(CpfValidationClient.CpfStatus.ABLE_TO_VOTE);
 
         // Criar Associado V2
-        MvcResult resAssoc = mockMvc.perform(post("/api/v2/associados")
+        MvcResult resAssoc = mockMvc.perform(post("/api/v1/associados")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new AssociadoRequest("Sócio V2", "99988877766"))))
+                        .content(objectMapper.writeValueAsString(new AssociadoRequest("Sócio V1", "99988877766"))))
                 .andExpect(status().isCreated())
                 .andReturn();
         UUID assocId = UUID.fromString(com.jayway.jsonpath.JsonPath.read(resAssoc.getResponse().getContentAsString(), "$.id"));
@@ -110,7 +110,7 @@ class PautaIntegrationV2Test {
                 .andExpect(status().isOk());
 
         // Votar V2 - Mudança no path: /api/v2/pautas/{id}/votos (plural no v2)
-        mockMvc.perform(post("/api/v2/pautas/" + pautaId + "/votos")
+        mockMvc.perform(post("/api/v2/pautas/" + pautaId + "/votar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new com.desafio.votacao.dto.VotoRequest(assocId, com.desafio.votacao.entity.enums.VotoEscolha.SIM))))
                 .andExpect(status().isCreated());
